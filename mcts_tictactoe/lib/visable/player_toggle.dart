@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'player_enum.dart';
-import './icons/robot.dart';
-import './bloc/game_bloc.dart';
+import '../player_enum.dart';
+import '../icons/robot.dart';
+import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlayerToggle extends StatelessWidget {

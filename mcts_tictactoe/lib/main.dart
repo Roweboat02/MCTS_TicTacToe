@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'player_toggle.dart';
+import 'visable/player_toggle.dart';
 import 'visable/board.dart';
 import 'bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
