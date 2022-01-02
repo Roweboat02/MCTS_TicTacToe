@@ -1,48 +1,57 @@
 import 'package:flutter/material.dart';
-import 'robot.dart';
+import 'player_enum.dart';
+import './icons/robot.dart';
+import './bloc/game_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PlayerToggle extends StatefulWidget {
-  const PlayerToggle({ Key? key, required this.color, required this.playerSymbol }) : super(key: key);
+class PlayerToggle extends StatelessWidget {
+  final PlayerType player;
 
-  final Color color;
-  final String playerSymbol;
+  const PlayerToggle(this.player, { Key? key }) : super(key: key);
+
   static double buttonSize = 90;
 
-  @override
-  _PlayerToggleState createState() => _PlayerToggleState();
-}
-
-class _PlayerToggleState extends State<PlayerToggle> {
-  bool human = true;
-  get intHuman => human?1:0;
-
-  List<Icon> icons = [
-    Icon(MyFlutterApp.robot),
-    Icon(Icons.accessibility)];
+  static Map<PlayerType, Color> colors = {
+    PlayerType.X: Colors.red,
+    PlayerType.O: Colors.blue,
+  };
+  static Map<PlayerType, String> playerSymbols = {
+    PlayerType.X: 'X',
+    PlayerType.O: 'O',
+  };
+  static Map<bool, Icon> icons = {
+    false: const Icon(MyFlutterApp.robot),
+    true: const Icon(Icons.accessibility),
+  };
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 4.0),
-      child: Column(
-        children: [
-          Text(
-            widget.playerSymbol,
-            style: TextStyle(fontSize:60, fontWeight: FontWeight.bold),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              fixedSize: Size(PlayerToggle.buttonSize, PlayerToggle.buttonSize),
-              primary: widget.color,
+    return BlocBuilder<GameBloc, GameState>(buildWhen: (previousState, state) {
+      return previousState.runtimeType != state.runtimeType;
+    }, builder: (context, state) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+        child: Column(
+          children: [
+            Text(
+              PlayerToggle.playerSymbols[player]!,
+              style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
             ),
-            child: icons[intHuman],
-            onPressed: (){
-              setState((){human=!human;});
-            },
-          ),
-        ],
-      ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize:
+                    Size(PlayerToggle.buttonSize, PlayerToggle.buttonSize),
+                primary: PlayerToggle.colors[player],
+              ),
+              child: PlayerToggle.icons[state.humanPlayers[player]!],
+              onPressed: () {
+                context.read<GameBloc>().add(PlayerTypeToggled(player));
+              },
+            ),
+          ],
+        ),
+      );
+    }
     );
-    
   }
 }

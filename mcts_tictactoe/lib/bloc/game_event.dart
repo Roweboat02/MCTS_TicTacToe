@@ -10,7 +10,8 @@ class AttemptMove extends GameEvent{
 }
 
 class PlayerTypeToggled extends GameEvent{
-
+  final PlayerType player;
+  PlayerTypeToggled(this.player);
 
 }
 

@@ -38,7 +38,7 @@ class Tile extends StatelessWidget {
             if (onPressed == null) {
               context.read<GameBloc>().add(AttemptMove(i: i, j: j));
             } else {
-              onPressed!();
+              (){};
             }
           }),
     );
