@@ -2,26 +2,25 @@ part of 'game_bloc.dart';
 
 @immutable
 abstract class GameState {
-  final List<List<int>> board;
-  final Map<PlayerType, bool> humanPlayers;
-  const GameState(this.board, this.humanPlayers);
+  final TicTacToe game;
+  const GameState(this.game);
 
+  List<List<TileState>> get board => game.board;
+  Map<TileState, bool> get players => game.players;
 }
 
 class GameInitial extends GameState {
-  final bool initialTurn;
-  final bool isEmpty;
-  const GameInitial(List<List<int>> board, Map<PlayerType, bool> humanPlayers, this.initialTurn, this.isEmpty):super(board, humanPlayers);
+  const GameInitial(TicTacToe game) : super(game);
+  bool get turn => game.turn;
 }
 
 class GameInProgress extends GameState {
-  final bool currentTurn;
-  const GameInProgress(List<List<int>> board, Map<PlayerType, bool> humanPlayers, this.currentTurn):super(board, humanPlayers);
+  const GameInProgress(TicTacToe game) : super(game);
+  bool get turn => game.turn;
 }
 
 class GameOver extends GameState {
-  final PlayerType winner;
-  final List<List<int>> winningSquares;
-  const GameOver(List<List<int>> board, Map<PlayerType, bool> humanPlayers, this.winner, this.winningSquares):super(board, humanPlayers);
+  const GameOver(TicTacToe game) : super(game);
+  List<List<int>> get winningSquares => game.winningSquares!;
+  TileState get winner => game.winner!;
 }
-

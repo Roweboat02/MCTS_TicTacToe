@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcts_tictactoe/bloc/game_bloc.dart';
-import '../player_enum.dart';
+import '../enums/board_states.dart';
 import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,9 +36,9 @@ class Tile extends StatelessWidget {
           ),
           onPressed: () {
             if (onPressed == null) {
-              context.read<GameBloc>().add(AttemptMove(i: i, j: j));
+              context.read<GameBloc>().add(MoveAttempted(i: i, j: j));
             } else {
-              (){};
+              () {};
             }
           }),
     );
@@ -53,15 +53,14 @@ class UnselectedTile extends Tile {
 }
 
 class SelectedTile extends Tile {
-
   const SelectedTile(int i, int j, Color color, String symbol, {Key? key})
       : super(
-            key: key,
-            i: i,
-            j: j,
-            symbol: symbol,
-            color: color,
-      );
+          key: key,
+          i: i,
+          j: j,
+          symbol: symbol,
+          color: color,
+        );
 }
 
 class FinishedGameTile extends Tile {

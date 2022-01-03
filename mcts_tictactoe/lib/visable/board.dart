@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../player_enum.dart';
+import '../enums/board_states.dart';
 import 'tile.dart';
 
 class Board extends StatelessWidget {
-  final int boardLen;
-  const Board(this.boardLen, {Key? key}) : super(key: key);
+  const Board({Key? key}) : super(key: key);
 
-  static const Map<PlayerType, String> tileSymbols = {
-    PlayerType.X: 'X',
-    PlayerType.O: 'X',
+  static const Map<TileState, String> tileSymbols = {
+    TileState.X: 'X',
+    TileState.O: 'X',
   };
 
-  static const Map<PlayerType, Color> tileColors = {
-    PlayerType.X: Colors.red,
-    PlayerType.O: Colors.blue,
-    PlayerType.draw: Colors.green,
+  static const Map<TileState, Color> tileColors = {
+    TileState.X: Colors.red,
+    TileState.O: Colors.blue,
+    TileState.draw: Colors.green,
   };
 
-  static Widget buildBoard(List<List<int>> board) {
+  static Widget buildBoard(List<List<TileState>> board) {
     List<Widget> colChildren = [];
     for (int i = 0; i < board.length; i++) {
       List<Widget> rowChildren = [];
       for (int j = 0; j < board.length; j++) {
-        if (board[i][j] == PlayerType.empty.index) {
+        if (board[i][j] == TileState.empty) {
           rowChildren.add(UnselectedTile(i, j));
         } else {
           rowChildren.add(SelectedTile(
@@ -42,8 +41,8 @@ class Board extends StatelessWidget {
     );
   }
 
-  static Widget buildWonBoard(List<List<int>> board,
-      List<List<int>> winningSquares, PlayerType winner) {
+  static Widget buildWonBoard(List<List<TileState>> board,
+      List<List<int>> winningSquares, TileState winner) {
     List<Widget> colChildren = [];
     for (int i = 0; i < board.length; i++) {
       List<Widget> rowChildren = [];

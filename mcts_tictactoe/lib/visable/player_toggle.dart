@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import '../player_enum.dart';
+import '../enums/board_states.dart';
 import '../icons/robot.dart';
 import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlayerToggle extends StatelessWidget {
-  final PlayerType player;
+  final TileState player;
 
-  const PlayerToggle(this.player, { Key? key }) : super(key: key);
+  const PlayerToggle(this.player, {Key? key}) : super(key: key);
 
   static double buttonSize = 90;
 
-  static Map<PlayerType, Color> colors = {
-    PlayerType.X: Colors.red,
-    PlayerType.O: Colors.blue,
+  static Map<TileState, Color> colors = {
+    TileState.X: Colors.red,
+    TileState.O: Colors.blue,
   };
-  static Map<PlayerType, String> playerSymbols = {
-    PlayerType.X: 'X',
-    PlayerType.O: 'O',
+  static Map<TileState, String> playerSymbols = {
+    TileState.X: 'X',
+    TileState.O: 'O',
   };
   static Map<bool, Icon> icons = {
     false: const Icon(MyFlutterApp.robot),
@@ -43,7 +43,7 @@ class PlayerToggle extends StatelessWidget {
                     Size(PlayerToggle.buttonSize, PlayerToggle.buttonSize),
                 primary: PlayerToggle.colors[player],
               ),
-              child: PlayerToggle.icons[state.humanPlayers[player]!],
+              child: PlayerToggle.icons[state.players[player]!],
               onPressed: () {
                 context.read<GameBloc>().add(PlayerTypeToggled(player));
               },
@@ -51,7 +51,6 @@ class PlayerToggle extends StatelessWidget {
           ],
         ),
       );
-    }
-    );
+    });
   }
 }

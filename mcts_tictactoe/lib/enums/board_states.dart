@@ -1,4 +1,4 @@
-enum PlayerType{
+enum TileState {
   X,
   O,
   empty,

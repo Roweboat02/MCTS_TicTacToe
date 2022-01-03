@@ -3,16 +3,13 @@ part of 'game_bloc.dart';
 @immutable
 abstract class GameEvent {}
 
-class AttemptMove extends GameEvent{
-  final int j;
-  final int i;
-  AttemptMove({required this.i, required this.j});
+class MoveAttempted extends GameEvent {
+  final int? i;
+  final int? j;
+  MoveAttempted({this.i, this.j});
 }
 
-class PlayerTypeToggled extends GameEvent{
-  final PlayerType player;
-  PlayerTypeToggled(this.player);
-
+class PlayerTypeToggled extends GameEvent {
+  final TileState toggledPlayer;
+  PlayerTypeToggled(this.toggledPlayer);
 }
-
-

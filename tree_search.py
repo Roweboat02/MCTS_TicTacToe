@@ -8,7 +8,7 @@ def mcts(node, depth=0):
     if node.winner is not None:
         result = node.winner
 
-    elif node.visited is False:
+    elif node.populated is False:
         node.populate()
         result, depth = node.rollout(depth)
 
