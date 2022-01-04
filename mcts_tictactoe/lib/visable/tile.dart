@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcts_tictactoe/bloc/game_bloc.dart';
+import 'package:mcts_tictactoe/tictactoe/cords.dart';
 import '../enums/board_states.dart';
 import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Tile extends StatelessWidget {
   final String symbol;
   final Color color;
-  final int i;
-  final int j;
+  final Cords cords;
   final Function? onPressed;
 
   static double tileSize = 100;
@@ -17,8 +17,7 @@ class Tile extends StatelessWidget {
     Key? key,
     required this.symbol,
     required this.color,
-    required this.i,
-    required this.j,
+    required this.cords,
     this.onPressed,
   }) : super(key: key);
 
@@ -33,10 +32,11 @@ class Tile extends StatelessWidget {
           ),
           child: Text(
             symbol,
+            style: const TextStyle(fontSize: 65.0),
           ),
           onPressed: () {
             if (onPressed == null) {
-              context.read<GameBloc>().add(MoveAttempted(i: i, j: j));
+              context.read<GameBloc>().add(MoveAttempted(cords));
             } else {
               () {};
             }
@@ -48,29 +48,28 @@ class Tile extends StatelessWidget {
 class UnselectedTile extends Tile {
   static const String _emptySymbol = '';
 
-  const UnselectedTile(int i, int j, {Key? key})
-      : super(key: key, i: i, j: j, color: Colors.white, symbol: _emptySymbol);
+  const UnselectedTile(Cords cords, {Key? key})
+      : super(
+            key: key, cords: cords, color: Colors.white, symbol: _emptySymbol);
 }
 
 class SelectedTile extends Tile {
-  const SelectedTile(int i, int j, Color color, String symbol, {Key? key})
+  const SelectedTile(Cords cords, Color color, String symbol, {Key? key})
       : super(
           key: key,
-          i: i,
-          j: j,
+          cords: cords,
           symbol: symbol,
           color: color,
         );
 }
 
 class FinishedGameTile extends Tile {
-  static const Color _defaultColor = Colors.grey;
+  static const Color _defaultColor = Color(0xFF424242);
 
-  const FinishedGameTile(int i, int j, String symbol, Color? color, {Key? key})
+  const FinishedGameTile(Cords cords, String symbol, Color? color, {Key? key})
       : super(
             key: key,
-            i: i,
-            j: j,
+            cords: cords,
             symbol: symbol,
             color: color ?? _defaultColor);
 }

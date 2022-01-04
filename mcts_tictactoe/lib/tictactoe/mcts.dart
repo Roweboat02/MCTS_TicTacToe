@@ -3,6 +3,8 @@ import 'package:mcts_tictactoe/tictactoe/tictactoe.dart';
 
 import 'dart:math';
 
+import 'cords.dart';
+
 class Result {
   int depth;
   TileState winner;
@@ -25,7 +27,7 @@ Result mcts(TreeNode node, {int depth = 0}) {
   return result;
 }
 
-List<int> findBestMove(TicTacToe game, int simulations) {
+Cords findBestMove(TicTacToe game, int simulations) {
   TreeNode node = TreeNode(game, null);
   while (simulations > 0) {
     simulations--;
@@ -36,7 +38,7 @@ List<int> findBestMove(TicTacToe game, int simulations) {
 
 class TreeNode {
   final TicTacToe game;
-  final List<int>? move;
+  final Cords? move;
   bool populated = false;
   List<TreeNode>? children;
   int? _unvisitedIndex;
@@ -49,7 +51,7 @@ class TreeNode {
     this.move,
   ) : this.game = TicTacToe.from(game) {
     if (move != null) {
-      game.makeMove(move![0], move![1]);
+      game.makeMove(move!);
     }
   }
 

@@ -20,22 +20,25 @@ class PlayerToggle extends StatelessWidget {
     TileState.O: 'O',
   };
   static Map<bool, Icon> icons = {
-    false: const Icon(MyFlutterApp.robot),
-    true: const Icon(Icons.accessibility),
+    false: const Icon(MyFlutterApp.robot, size: 50.0),
+    true: const Icon(Icons.accessibility, size: 50.0),
   };
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(buildWhen: (previousState, state) {
-      return previousState.runtimeType != state.runtimeType;
-    }, builder: (context, state) {
+    return BlocBuilder<GameBloc, GameState>(builder: (context, state) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               PlayerToggle.playerSymbols[player]!,
-              style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

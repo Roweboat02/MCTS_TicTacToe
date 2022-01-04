@@ -4,9 +4,8 @@ part of 'game_bloc.dart';
 abstract class GameEvent {}
 
 class MoveAttempted extends GameEvent {
-  final int? i;
-  final int? j;
-  MoveAttempted({this.i, this.j});
+  final Cords? move;
+  MoveAttempted(this.move);
 }
 
 class PlayerTypeToggled extends GameEvent {

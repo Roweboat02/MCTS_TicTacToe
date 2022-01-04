@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mcts_tictactoe/enums/board_states.dart';
-import 'player_toggle.dart';
-import 'board.dart';
-import '../bloc/game_bloc.dart';
+import 'package:mcts_tictactoe/visable/announcer_text.dart';
+import 'visable/player_toggle.dart';
+import 'visable/board.dart';
+import 'bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../tictactoe/tictactoe.dart';
+import 'tictactoe/tictactoe.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -12,6 +13,8 @@ void main(List<String> args) {
 
 class MyApp extends StatelessWidget {
   static const int boardLen = 3;
+
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +34,14 @@ class TicTacToePage extends StatelessWidget {
       TileState.O: Colors.blue[800],
       TileState.X: Colors.red[800],
       null: null,
-      TileState.draw: Colors.green,
+      TileState.draw: Colors.green[700],
     }[winner];
   }
 
   static Color backgroundfromTurn(TileState turn) {
     return {
-      TileState.O: Colors.blue,
-      TileState.X: Colors.red,
+      TileState.O: Color(0xFF0D47A1),
+      TileState.X: Color(0xFFB71C1C),
     }[turn]!;
   }
 
@@ -49,24 +52,26 @@ class TicTacToePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(buildWhen: (previousState, state) {
-      return previousState.runtimeType != state.runtimeType;
-    }, builder: (context, state) {
-      return Scaffold(
-          backgroundColor: backgroundFromGame(state.game),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Board(),
-              Row(
+    return BlocBuilder<GameBloc, GameState>(builder: (context, state) {
+      return MaterialApp(
+          home: Scaffold(
+              backgroundColor: backgroundFromGame(state.game),
+              body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  PlayerToggle(TileState.O),
-                  PlayerToggle(TileState.X)
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const AnnouncerText(),
+                  const Board(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      PlayerToggle(TileState.O),
+                      PlayerToggle(TileState.X)
+                    ],
+                  )
                 ],
-              )
-            ],
-          ));
+              )));
     });
   }
 }

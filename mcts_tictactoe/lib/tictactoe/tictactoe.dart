@@ -1,5 +1,5 @@
 import 'package:mcts_tictactoe/tictactoe/mcts.dart';
-import 'package:mcts_tictactoe/visable/board.dart';
+import 'cords.dart';
 
 import '../enums/board_states.dart';
 import '../enums/player_type.dart';
@@ -19,7 +19,7 @@ class TicTacToe {
   bool turn;
   TileState? winner;
 
-  List<List<int>>? winningSquares;
+  List<Cords>? winningSquares;
 
   bool get humansTurn => players[boolToBoardState[turn]]!;
   TileState get turnsTile => boolToBoardState[turn]!;
@@ -47,22 +47,20 @@ class TicTacToe {
   List<List<TileState>> get emptyBoard => List.generate(
       boardLen, (_) => List.generate(boardLen, (_) => TileState.empty));
 
-  void makeMove(int i, int j) {
+  void makeMove(Cords cord) {
     //POTENTIAL ERROR WITH PASS-BY-REF
-    board[i][j] = boolToBoardState[turn]!;
+    board[cord.i][cord.j] = boolToBoardState[turn]!;
     turn = !turn;
     _checkForWin();
     _checkForTie();
   }
 
   void makeMCTS() {
-    List<int> move = findBestMove(this, 500);
-    makeMove(move[0], move[1]);
+    makeMove(findBestMove(this, 500));
   }
 
   void makeArbitraryMove() {
-    List<int> move = availableMoves().first;
-    makeMove(move[0], move[1]);
+    makeMove(availableMoves().first);
   }
 
   void togglePlayer(TileState toggledPlayer) {
@@ -70,58 +68,67 @@ class TicTacToe {
   }
 
   void _checkForWin() {
-    late List<List<int>> leftDiag;
-    late List<List<int>> rightDiag;
+    List<Cords> leftDiag = [];
+    List<Cords> rightDiag = [];
 
     for (TileState player in [TileState.X, TileState.O]) {
-      rightDiag = leftDiag = [];
+      rightDiag.clear();
+      leftDiag.clear();
 
       for (int k = 0; k < boardLen; k++) {
         if (board[k][k] == player) {
-          rightDiag.add([k, k]);
+          rightDiag.add(Cords(k, k));
         }
         if (board[k][(boardLen - 1) - k] == player) {
-          leftDiag.add([k, (boardLen - 1) - k]);
+          leftDiag.add(Cords(k, (boardLen - 1) - k));
         } // check if tiles on diag are turn
 
         if (board[k].every((element) => element == player)) {
           winner = player;
-          winningSquares = List.generate(boardLen, (index) => [k, index]);
+          winningSquares = List.generate(boardLen, (index) => Cords(k, index));
           break;
         } // check each row
         if (board.every((element) => element[k] == player)) {
           winner = player;
-          winningSquares = List.generate(boardLen, (index) => [index, k]);
+          winningSquares = List.generate(boardLen, (index) => Cords(index, k));
           break;
         } // check each col
-        if (leftDiag.length == 3) {
-          winner = player;
-          winningSquares = leftDiag;
-          break;
-        } else if (rightDiag.length == 3) {
-          winner = player;
-          winningSquares = rightDiag;
-          break;
-        }
+      }
+      if (leftDiag.length == 3) {
+        print(leftDiag);
+        winner = player;
+        winningSquares = leftDiag;
+        break;
+      } else if (rightDiag.length == 3) {
+        winner = player;
+        winningSquares = rightDiag;
+        break;
       }
     }
   }
 
+  void reset() {
+    winner = null;
+    _board = null;
+    winningSquares = null;
+  }
+
   void _checkForTie() {
-    if (board
-        .every((values) => values.every((value) => value != TileState.empty))) {
+    if (winner == null &&
+        board.every(
+            (values) => values.every((value) => value != TileState.empty))) {
       winner = TileState.draw;
       winningSquares = List.generate(boardLen * boardLen,
-          (index) => [index ~/ boardLen, index % boardLen]);
+          (index) => Cords(index ~/ boardLen, index % boardLen));
     }
   }
 
-  List<List<int>> availableMoves() {
-    List<List<int>> moves = [];
+  List<Cords> availableMoves() {
+    List<Cords> moves = [];
     for (int i = 0; i < boardLen; i++) {
       for (int j = 0; j < boardLen; j++) {
         if (board[i][j] == TileState.empty) {
-          moves.add([i, j]..length = 2);
+          moves.add(Cords(i, j));
         }
       }
     }

@@ -21,6 +21,6 @@ class GameInProgress extends GameState {
 
 class GameOver extends GameState {
   const GameOver(TicTacToe game) : super(game);
-  List<List<int>> get winningSquares => game.winningSquares!;
+  List<Cords> get winningSquares => game.winningSquares!;
   TileState get winner => game.winner!;
 }
