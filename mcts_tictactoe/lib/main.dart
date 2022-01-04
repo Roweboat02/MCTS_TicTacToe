@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcts_tictactoe/enums/board_states.dart';
+import 'package:mcts_tictactoe/enums/tile_states.dart';
 import 'package:mcts_tictactoe/visable/announcer_text.dart';
 import 'visable/player_toggle.dart';
 import 'visable/board.dart';

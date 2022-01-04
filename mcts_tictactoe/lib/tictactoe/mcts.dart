@@ -1,4 +1,4 @@
-import 'package:mcts_tictactoe/enums/board_states.dart';
+import 'package:mcts_tictactoe/enums/tile_states.dart';
 import 'package:mcts_tictactoe/tictactoe/tictactoe.dart';
 
 import 'dart:math';

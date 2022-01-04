@@ -1,12 +1,12 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:mcts_tictactoe/tictactoe/cords.dart';
-import 'package:mcts_tictactoe/visable/tile.dart';
-import 'package:meta/meta.dart';
-import 'package:mcts_tictactoe/enums/board_states.dart';
-import '../tictactoe/tictactoe.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+import '../tictactoe/cords.dart';
+import 'package:mcts_tictactoe/tictactoe/tictactoe.dart';
+import 'package:mcts_tictactoe/enums/tile_states.dart';
 
 part 'game_event.dart';
 part 'game_state.dart';

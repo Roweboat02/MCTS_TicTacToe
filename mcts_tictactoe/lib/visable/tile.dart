@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mcts_tictactoe/bloc/game_bloc.dart';
 import 'package:mcts_tictactoe/tictactoe/cords.dart';
-import '../enums/board_states.dart';
+import '../enums/tile_states.dart';
 import '../bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

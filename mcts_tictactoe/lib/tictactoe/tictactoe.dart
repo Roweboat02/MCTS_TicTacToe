@@ -1,7 +1,7 @@
 import 'package:mcts_tictactoe/tictactoe/mcts.dart';
 import 'cords.dart';
 
-import '../enums/board_states.dart';
+import '../enums/tile_states.dart';
 import '../enums/player_type.dart';
 
 class TicTacToe {
