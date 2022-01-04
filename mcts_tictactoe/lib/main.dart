@@ -7,7 +7,7 @@ import 'bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'tictactoe/tictactoe.dart';
 
-void main(List<String> args) {
+void main() {
   runApp(MyApp());
 }
 
