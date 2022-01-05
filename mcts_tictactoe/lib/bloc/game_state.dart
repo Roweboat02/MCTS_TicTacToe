@@ -9,6 +9,18 @@ abstract class GameState {
   Map<TileState, bool> get players => game.players;
 }
 
+class CompMakingMove extends GameState {
+  final bool visualize;
+  final int count;
+  const CompMakingMove(
+    TicTacToe game,
+    this.count,
+    this.visualize,
+  ) : super(game);
+
+  bool get turn => game.turn;
+}
+
 class GameInitial extends GameState {
   const GameInitial(TicTacToe game) : super(game);
   bool get turn => game.turn;

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../tictactoe/cords.dart';
-import 'package:mcts_tictactoe/tictactoe/tictactoe.dart';
-import 'package:mcts_tictactoe/enums/tile_states.dart';
+import 'package:mcts_tictactoe/game_state/tictactoe.dart';
+import '../small_classes/cords.dart';
+import '../small_classes/tile_states.dart';
 
 part 'game_event.dart';
 part 'game_state.dart';
@@ -14,44 +14,51 @@ part 'game_state.dart';
 class GameBloc extends Bloc<GameEvent, GameState> {
   TicTacToe game;
   bool visualizeMCTS = false;
+  int compPauseDurration;
 
-  GameBloc({required this.game}) : super(GameInitial(game)) {
+  StreamSubscription<int>? mctsProgress;
+
+  GameBloc({required this.game, this.compPauseDurration = 3000})
+      : super(GameInitial(game)) {
     on<MoveAttempted>(_onMoveAttempted);
     on<PlayerTypeToggled>(_onPlayerTypeToggled);
   }
 
   @override
   Future<void> close() {
+    mctsProgress?.cancel();
     return super.close();
   }
 
-  _onMoveAttempted(MoveAttempted event, Emitter<GameState> emit) {
-    if (game.winner == null) {
-      if (game.humansTurn) {
-        game.makeMove(event.move!);
-        if (game.winner == null) {
-          emit(GameInProgress(game));
-        } else {
-          emit(GameOver(game));
-        }
-      } else if (!visualizeMCTS) {
-        game.makeMCTS();
-        _onMoveAttempted(event, emit);
-      }
-    } else {
+  void _determineNextAction(Emitter<GameState> emit) async {
+    if (game.winner != null) {
+      emit(GameOver(game));
+      return;
+    }
+    if (game.humansTurn) {
+      emit(GameInProgress(game));
+      return;
+    }
+
+    return _determineNextAction(emit);
+  }
+
+  void _onMoveAttempted(MoveAttempted event, Emitter<GameState> emit) {
+    if (game.winner != null) {
       game.reset();
       emit(GameInitial(game));
+      return;
+    }
+    if (game.humansTurn) {
+      game.makeMove(event.move!);
+      _determineNextAction(emit);
+      return;
     }
   }
 
-  _onPlayerTypeToggled(PlayerTypeToggled event, Emitter<GameState> emit) {
+  void _onPlayerTypeToggled(PlayerTypeToggled event, Emitter<GameState> emit) {
     game.togglePlayer(event.toggledPlayer);
-    if (!visualizeMCTS) {
-      if (game.winner == null) {
-        emit(GameInProgress(game));
-      } else {
-        emit(GameOver(game));
-      }
-    }
+    _determineNextAction(emit);
+    return;
   }
 }

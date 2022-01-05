@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mcts_tictactoe/enums/tile_states.dart';
-import 'package:mcts_tictactoe/visable/announcer_text.dart';
-import 'visable/player_toggle.dart';
-import 'visable/board.dart';
+import 'package:mcts_tictactoe/small_classes/tile_states.dart';
+import 'package:mcts_tictactoe/ui_elements/player_toggle.dart';
 import 'bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'tictactoe/tictactoe.dart';
+
+import 'game_state/tictactoe.dart';
+import 'ui_elements/announcer_text.dart';
+import 'ui_elements/board.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,8 +41,8 @@ class TicTacToePage extends StatelessWidget {
 
   static Color backgroundfromTurn(TileState turn) {
     return {
-      TileState.O: Color(0xFF0D47A1),
-      TileState.X: Color(0xFFB71C1C),
+      TileState.O: const Color(0xFF0D47A1),
+      TileState.X: const Color(0xFFB71C1C),
     }[turn]!;
   }
 
@@ -59,17 +60,10 @@ class TicTacToePage extends StatelessWidget {
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const AnnouncerText(),
-                  const Board(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      PlayerToggle(TileState.O),
-                      PlayerToggle(TileState.X)
-                    ],
-                  )
+                children: const <Widget>[
+                  AnnouncerText(),
+                  Board(),
+                  BothPlayerToggles(),
                 ],
               )));
     });
