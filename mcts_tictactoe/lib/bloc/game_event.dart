@@ -1,7 +1,9 @@
 part of 'game_bloc.dart';
 
 @immutable
-abstract class GameEvent {}
+abstract class GameEvent {
+  GameEvent() {}
+}
 
 class HumanMoveMade extends GameEvent {
   final Cords move;

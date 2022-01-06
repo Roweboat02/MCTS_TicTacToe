@@ -81,7 +81,7 @@ class TicTacToe {
     _checkForTie();
   }
 
-  Future<Cords> makeMCTS({int simulations = 500}) async {
+  Future<Cords> makeMCTS({int simulations = 200}) async {
     Cords move = findBestMove(this, simulations);
     makeMove(move);
     return move;

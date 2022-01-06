@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mcts_tictactoe/small_classes/tile_states.dart';
 import 'package:mcts_tictactoe/ui_elements/player_toggle.dart';
+import 'bloc/bloc_listener.dart';
 import 'bloc/game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => GameBloc(game: TicTacToe(boardLen)),
-      child: const TicTacToePage(boardLen),
+      child:
+          ComputerPlayer(TicTacToePage(boardLen), Duration(milliseconds: 1500)),
     );
   }
 }

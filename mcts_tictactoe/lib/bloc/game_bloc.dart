@@ -33,14 +33,14 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _determineNextAction(Emitter<GameState> emit) async {
     if (game.winner != null) {
-      emit(GameOver(game));
+      emit(GameOver(TicTacToe.from(game)));
       return;
     }
-    if (game.isNextTurnHumans) {
-      emit(AwaitingHumanMove(game));
+    if (game.isTurnHumans) {
+      emit(AwaitingHumanMove(TicTacToe.from(game)));
       return;
     } else {
-      emit(AwaitingComputerMove(game));
+      emit(AwaitingComputerMove(TicTacToe.from(game)));
       return;
     }
   }
@@ -48,8 +48,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onMoveAttempted(GameEvent event, Emitter<GameState> emit) {
     if (game.winner != null) {
       game.reset();
-      emit(GameInitial(game));
-      return;
+      return _determineNextAction(emit);
     }
     if ((game.isTurnHumans && event is HumanMoveMade)) {
       game.makeMove(event.move);

@@ -35,12 +35,12 @@ class TreeNode {
 
   TreeNode get child {
     // The child that should be used next in an operation
-    if (_unvisitedIndex! > 0) {
-      _unvisitedIndex = _unvisitedIndex! - 1;
-      return children![_unvisitedIndex!];
-    } else {
-      return this.ucb();
+    for (TreeNode _child in children!) {
+      if (!_child.visited) {
+        return _child;
+      }
     }
+    return this.ucb();
   }
 
   // MCTS functions
@@ -54,30 +54,34 @@ class TreeNode {
   }
 
   TreeNode ucb({cConst = 1.41}) {
-    List<double> ucbValues = children!.map((_child) {
-      return _child.score / _child.visits +
-          cConst * sqrt(log(this.visits) / _child.visits);
-    }).toList();
+    double? bestScore;
+    TreeNode? bestChild;
 
-    double greatestVal = ucbValues.first;
-    for (double val in ucbValues) {
-      if (val > greatestVal) {
-        greatestVal = val;
+    late double _score;
+    for (TreeNode _child in children!) {
+      _score = _child.score / _child.visits +
+          cConst * sqrt(log(this.visits) / _child.visits);
+      if (bestScore == null || _score > bestScore) {
+        bestScore = _score;
+        bestChild = _child;
       }
     }
 
-    return children![ucbValues.indexOf(greatestVal)];
+    return bestChild!;
   }
 
   void updateScore(Result result) {
     visits++;
-
     if (result.winner == TileState.draw) {
-      score += 1;
+      score += 0.5;
       return;
     }
-    score +=
-        _increaseOrDecrease(result.winner) * (2 + (6 / (pow(result.depth, 2))));
+    if (_wonOrLost(result.winner)) {
+      score += 5;
+      return;
+    } else {
+      score -= (5 + (1000000 / pow(result.depth, 15)));
+    }
   }
 
   Result rollout(int depth) {
@@ -92,5 +96,9 @@ class TreeNode {
 
   int _increaseOrDecrease(TileState outcome) {
     return (TicTacToe.boolToBoardState(game.turn) == outcome) ? 1 : -1;
+  }
+
+  bool _wonOrLost(TileState outcome) {
+    return TicTacToe.boolToBoardState(game.turn) == outcome;
   }
 }

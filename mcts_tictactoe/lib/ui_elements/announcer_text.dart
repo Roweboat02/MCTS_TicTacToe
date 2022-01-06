@@ -9,14 +9,14 @@ class AnnouncerText extends StatelessWidget {
 
   String _determineText(GameState state) {
     switch (state.runtimeType) {
-      case CompMakingMove:
+      case AwaitingComputerMove:
         return '...';
       case GameOver:
         String text = 'Game Over!';
         if (state.game.winner == TileState.draw) {
           return text + ' Draw!';
         } else {
-          return text + '${state.game.winner == TileState.X ? 'X' : 'O'} Won!';
+          return text + ' ${state.game.winner == TileState.X ? 'X' : 'O'} Won!';
         }
       case GameInitial:
       case AwaitingHumanMove:
