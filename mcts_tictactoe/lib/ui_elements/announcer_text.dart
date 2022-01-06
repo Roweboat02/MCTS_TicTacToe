@@ -19,7 +19,7 @@ class AnnouncerText extends StatelessWidget {
           return text + '${state.game.winner == TileState.X ? 'X' : 'O'} Won!';
         }
       case GameInitial:
-      case GameInProgress:
+      case AwaitingHumanMove:
         return '${state.game.turn ? 'O' : 'X'}\'s Turn';
     }
     return '';

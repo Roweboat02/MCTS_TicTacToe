@@ -7,6 +7,7 @@ abstract class GameState {
 
   List<List<TileState>> get board => game.board;
   Map<TileState, bool> get players => game.players;
+  bool get humansTurn => game.isTurnHumans;
 }
 
 class CompMakingMove extends GameState {
@@ -26,8 +27,13 @@ class GameInitial extends GameState {
   bool get turn => game.turn;
 }
 
-class GameInProgress extends GameState {
-  const GameInProgress(TicTacToe game) : super(game);
+class AwaitingHumanMove extends GameState {
+  const AwaitingHumanMove(TicTacToe game) : super(game);
+  bool get turn => game.turn;
+}
+
+class AwaitingComputerMove extends GameState {
+  const AwaitingComputerMove(TicTacToe game) : super(game);
   bool get turn => game.turn;
 }
 

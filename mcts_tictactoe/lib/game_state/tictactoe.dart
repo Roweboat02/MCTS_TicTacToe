@@ -53,7 +53,8 @@ class TicTacToe {
             : List.from(oldGame.winningSquares!);
 
   // Getters
-  bool get humansTurn => players[boolToBoardState(turn)]!;
+  bool get isTurnHumans => players[boolToBoardState(turn)]!;
+  bool get isNextTurnHumans => players[boolToBoardState(!turn)]!;
   TileState get turnsTile => boolToBoardState(turn);
 
   List<List<TileState>> get board => _board ??= emptyBoard;
@@ -80,9 +81,10 @@ class TicTacToe {
     _checkForTie();
   }
 
-  Future<void> makeMCTS({int simulations = 500}) async {
-    makeMove(findBestMove(this, simulations));
-    return;
+  Future<Cords> makeMCTS({int simulations = 500}) async {
+    Cords move = findBestMove(this, simulations);
+    makeMove(move);
+    return move;
   }
 
   void makeArbitraryMove() {

@@ -78,7 +78,7 @@ class Board extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameBloc, GameState>(builder: (context, state) {
-      if (state is GameInitial || state is GameInProgress) {
+      if (state is GameInitial || state is AwaitingHumanMove) {
         return _buildBoard(state.board);
       } else if (state is GameOver) {
         return _buildWonBoard(state.board, state.winningSquares);

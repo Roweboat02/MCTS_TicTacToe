@@ -26,7 +26,7 @@ class Tile extends StatelessWidget {
   static const TextStyle _defaultTextStyle = TextStyle(fontSize: 65.0);
 
   void _defaultOnPressed(BuildContext context) {
-    context.read<GameBloc>().add(MoveAttempted(cords));
+    context.read<GameBloc>().add(HumanMoveMade(cords));
   }
 
   final Size? tileSize;

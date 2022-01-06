@@ -20,7 +20,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   GameBloc({required this.game, this.compPauseDurration = 3000})
       : super(GameInitial(game)) {
-    on<MoveAttempted>(_onMoveAttempted);
+    on<HumanMoveMade>(_onMoveAttempted);
+    on<ComputerMoveMade>(_onMoveAttempted);
     on<PlayerTypeToggled>(_onPlayerTypeToggled);
   }
 
@@ -35,24 +36,29 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       emit(GameOver(game));
       return;
     }
-    if (game.humansTurn) {
-      emit(GameInProgress(game));
+    if (game.isNextTurnHumans) {
+      emit(AwaitingHumanMove(game));
+      return;
+    } else {
+      emit(AwaitingComputerMove(game));
       return;
     }
-
-    return _determineNextAction(emit);
   }
 
-  void _onMoveAttempted(MoveAttempted event, Emitter<GameState> emit) {
+  void _onMoveAttempted(GameEvent event, Emitter<GameState> emit) {
     if (game.winner != null) {
       game.reset();
       emit(GameInitial(game));
       return;
     }
-    if (game.humansTurn) {
-      game.makeMove(event.move!);
-      _determineNextAction(emit);
-      return;
+    if ((game.isTurnHumans && event is HumanMoveMade)) {
+      game.makeMove(event.move);
+      return _determineNextAction(emit);
+    } else if (!game.isTurnHumans && event is ComputerMoveMade) {
+      //Kept separate from HumanMadeMove as language server
+      //failed to understand event would have a move member w/ an or statement.
+      game.makeMove(event.move);
+      return _determineNextAction(emit);
     }
   }
 
