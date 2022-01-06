@@ -46082,8 +46082,8 @@ A.vx.prototype={
 Jq(a){var s
 switch(A.x(a)){case B.Gr:return"..."
 case B.GN:s=a.a.e
-if(s===B.bk)return"Game Over! Draw!"
-else return"Game Over!"+(" "+(s===B.H?"X":"O")+" Won!")
+if(s===B.bk)return" Draw!"
+else return(s===B.H?"X":"O")+" Won!"
 case B.GM:case B.Gs:return(a.a.d?"O":"X")+"'s Turn"}return""},
 M(a,b){return A.IY(new A.II(this),t.fM,t.tS)}}
 A.II.prototype={

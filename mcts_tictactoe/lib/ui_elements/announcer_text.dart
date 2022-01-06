@@ -12,11 +12,10 @@ class AnnouncerText extends StatelessWidget {
       case AwaitingComputerMove:
         return '...';
       case GameOver:
-        String text = 'Game Over!';
         if (state.game.winner == TileState.draw) {
-          return text + ' Draw!';
+          return ' Draw!';
         } else {
-          return text + ' ${state.game.winner == TileState.X ? 'X' : 'O'} Won!';
+          return '${state.game.winner == TileState.X ? 'X' : 'O'} Won!';
         }
       case GameInitial:
       case AwaitingHumanMove:
