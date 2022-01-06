@@ -27,7 +27,6 @@ class ComputerPlayer extends BlocListener<GameBloc, GameState> {
       Duration _stallLength) {
     void _listener(BuildContext context, GameState state) {
       TicTacToe _game = TicTacToe.from(state.game);
-      print(_game.board);
       Future<Cords> mctsProgress = _game.makeMCTS();
       Timer(_stallLength, () {
         mctsProgress.then((Cords move) =>
