@@ -23,7 +23,10 @@ Cords findBestMove(TicTacToe game, int simulations) {
   TreeNode node = TreeNode(game, null);
   while (simulations > 0) {
     simulations--;
-    mcts(node);
+    mcts(node, depth: 0);
   }
-  return node.ucb().move!;
+  // return node.ucb().move!;
+  return (node.children!..sort((a, b) => a.score.compareTo(b.score)))
+      .first
+      .move!;
 }

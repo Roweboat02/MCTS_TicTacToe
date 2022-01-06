@@ -81,21 +81,14 @@ class TicTacToe {
     _checkForTie();
   }
 
-  Future<Cords> makeMCTS({int simulations = 200}) async {
+  Future<Cords> makeMCTS({int simulations = 500}) async {
     Cords move = findBestMove(this, simulations);
     makeMove(move);
     return move;
   }
 
   void makeArbitraryMove() {
-    for (int i = 0; i < boardLen; i++) {
-      for (int j = 0; j < boardLen; j++) {
-        if (board[i][j] == TileState.empty) {
-          makeMove(Cords(i, j));
-          return;
-        }
-      }
-    }
+    makeMove((availableMoves()..shuffle()).first);
   }
 
   List<Cords> availableMoves() {

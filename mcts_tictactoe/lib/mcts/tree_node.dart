@@ -40,7 +40,8 @@ class TreeNode {
         return _child;
       }
     }
-    return this.ucb();
+    // return this.ucb();
+    return (this.children!..shuffle()).first;
   }
 
   // MCTS functions
@@ -49,7 +50,8 @@ class TreeNode {
     children = game
         .availableMoves()
         .map((possibleMove) => TreeNode(game, possibleMove))
-        .toList();
+        .toList()
+      ..shuffle();
     _unvisitedIndex = children!.length;
   }
 
@@ -73,14 +75,14 @@ class TreeNode {
   void updateScore(Result result) {
     visits++;
     if (result.winner == TileState.draw) {
-      score += 0.5;
+      score += 0;
       return;
     }
     if (_wonOrLost(result.winner)) {
-      score += 5;
+      score += 1;
       return;
     } else {
-      score -= (5 + (1000000 / pow(result.depth, 15)));
+      score -= (1 + ((result.depth == 1) ? (100) : (0)));
     }
   }
 
