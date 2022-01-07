@@ -1,3 +1,5 @@
+https://roweboat02.github.io/MCTS_TicTacToe/
+
 A Monte-Carlo Tree Search (MCTS), is a method of determing which action to take in a situation.
 In games like chess, until recently, the primary method used for this was a game tree.
 This worked by mapping out all possibilities to a certain depth, and taking the best option.
